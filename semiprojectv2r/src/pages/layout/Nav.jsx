@@ -1,15 +1,16 @@
 import React from "react";
-// Header 함수 컴포넌트 정의
+
+// Nav 함수 컴포넌트 정의
 const Nav = () => {
     return (
-        <nav role="navigation" className="navbar navbar-light bg-light" >
+        <nav role="navigation" className="navbar navbar-light bg-light">
             <ul className="nav space-between">
                 <li className="nav-item"><a href="/" className="nav-link">Home</a></li>
 
                 <li className="nav-item" >
                     <a href="/member/join" className="nav-link">회원가입</a></li>
 
-                <li className="nav-item" >
+                <li className="nav-item">
                     <a href="/member/login" className="nav-link">로그인</a></li>
 
                 <li className="nav-item"><a href="/board/list" className="nav-link">게시판</a></li>
