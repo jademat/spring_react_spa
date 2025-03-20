@@ -43,12 +43,12 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> loginok(@RequestBody MemberDTO member) {
+    public ResponseEntity<?> loginok(@RequestBody User user) {
         ResponseEntity<?> response = ResponseEntity.internalServerError().build();
 
-        log.info("login된 회원정보 : {}",member);
+        log.info("login된 회원정보 : {}",user);
         try {
-            Member loginUser =  memberservice.loginMember(member);
+            User loginUser =  userService.loginUser(user);
 
             response = ResponseEntity.ok().build();
         } catch (IllegalStateException e) {
