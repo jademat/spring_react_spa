@@ -1,5 +1,6 @@
 package com.example.jademat.semiprojectv2.controller;
 
+import com.example.jademat.semiprojectv2.domain.Member;
 import com.example.jademat.semiprojectv2.domain.MemberDTO;
 import com.example.jademat.semiprojectv2.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -37,4 +38,27 @@ public class AuthController {
 
         return response;
     }
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> loginok(@RequestBody MemberDTO member) {
+        ResponseEntity<?> response = ResponseEntity.internalServerError().build();
+
+        log.info("login된 회원정보 : {}",member);
+        try {
+            Member loginUser =  memberservice.loginMember(member);
+
+            response = ResponseEntity.ok().build();
+        } catch (IllegalStateException e) {
+
+            response = ResponseEntity.badRequest().body(e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+
 }
