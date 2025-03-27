@@ -53,8 +53,8 @@ public class BoardController {
 
     }
 
-    @GetMapping("/find/{cpg}/{findtype}/{findkey}")
-    public ResponseEntity<BoardListDTO> find(@PathVariable int cpg, @PathVariable String findtype, @PathVariable String findkey) {
+    @GetMapping("/find/{findtype}/{findkey}/{cpg}")
+    public ResponseEntity<BoardListDTO> find( @PathVariable String findtype, @PathVariable String findkey,@PathVariable int cpg) {
 
         BoardListDTO boardListDTO= boardService.findBoard(cpg,findtype,findkey);
 

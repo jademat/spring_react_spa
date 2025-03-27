@@ -28,7 +28,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardListDTO readBoard(int cpg) {
-        Pageable pageable = PageRequest.of(cpg, pageSize, Sort.Direction.DESC,"bno");
+        Pageable pageable = PageRequest.of(cpg -1 , pageSize, Sort.Direction.DESC,"bno");
 
         Page<BoardDTO> pageboards = boardRepository.findBy(pageable);
         List<BoardDTO> boards = pageboards.getContent();
@@ -40,7 +40,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardListDTO findBoard(int cpg, String findtype, String findkey) {
-        Pageable pageable = PageRequest.of(cpg, pageSize, Sort.Direction.DESC,"bno");
+        Pageable pageable = PageRequest.of(cpg - 1, pageSize, Sort.Direction.DESC,"bno");
         Page<BoardDTO> pageboards = null;
 
         switch (findtype) {
