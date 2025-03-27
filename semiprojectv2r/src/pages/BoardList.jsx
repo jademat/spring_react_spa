@@ -82,7 +82,7 @@ const BoardList = () => {
                         (boardData.bdlist.map(bd => (
                             <tr key={bd.bno}>
                                 <td>{bd.bno}</td>
-                                <td><a href={`/board/view/${bd.bno}`}>{bd.title}</a></td>
+                                <td><a href="/board/view?bno=${bd.bno}">{bd.title}</a></td>
                                 <td>{bd.userid}</td>
                                 <td>{bd.regdate.substring(0, 10)}</td>
                                 <td>{bd.thumbs}</td>
@@ -96,18 +96,16 @@ const BoardList = () => {
                 <tr>
                     <td colSpan="6">
                         <ul className="pagination">
-                            {(boardData.cpg > 1) &&
-                                (<li className="page-item">
-                                    <a href={`/board/list/${cpg - 1}`} className="page-link">이전</a></li>)}
+                            { (boardData.cpg > 1) &&
+                                (<li className="page-item"><a href={`/board/list/${cpg - 1}`}
+                                                              className="page-link">이전</a></li>) }
 
                             {
                                 (() => {
                                     const pgns = [];
                                     for (let i = boardData.stblk; i <= boardData.edblk; ++i) {
                                         (
-
-                                            pgns.push(<li key={i}
-                                                          className={(i === boardData.cpg) ? 'page-item active' : 'page-item'}>
+                                            pgns.push(<li key={i} className={(i === boardData.cpg) ? 'page-item active' : 'page-item'}>
                                                 <a href={`/board/list/${i}`} className="page-link">{i}</a></li>)
                                         )
                                     }
@@ -115,9 +113,9 @@ const BoardList = () => {
                                 })()
                             }
 
-                            {(boardData.cpg < boardData.cntpg) &&
-                                (<li className="page-item">
-                                    <a href={`/board/list/${boardData.cpg + 1}`} className="page-link">다음</a></li>)}
+                            { (boardData.cpg < boardData.cntpg) &&
+                                (<li className="page-item"><a href={`/board/list/${boardData.cpg + 1}`}
+                                                              className="page-link">다음</a></li>) }
                         </ul>
                     </td>
                 </tr>
