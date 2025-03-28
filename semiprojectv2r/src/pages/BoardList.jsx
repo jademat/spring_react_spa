@@ -44,7 +44,7 @@ const BoardList = () => {
     const goBoardFind = () => {
         const findtype = ftypeRef.current.value;
         const findkey = fkeyRef.current.value;
-        location.href = `/board/find/${findtype}/${findkey}/${cpg}`;
+        location.href = `/board/find/${findtype}/${findkey}/1`;
     };
 
     return (
@@ -104,7 +104,7 @@ const BoardList = () => {
                         (boardData.bdlist.map(bd => (
                             <tr key={bd.bno}>
                                 <td>{bd.bno}</td>
-                                <td><a href="/board/view?bno=${bd.bno}">{bd.title}</a></td>
+                                <td><a href={`/board/view/${bd.bno}`}>{bd.title}</a></td>
                                 <td>{bd.userid}</td>
                                 <td>{bd.regdate.substring(0, 10)}</td>
                                 <td>{bd.thumbs}</td>
