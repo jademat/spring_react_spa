@@ -3,6 +3,7 @@ package com.example.jademat.semiprojectv2.service;
 import com.example.jademat.semiprojectv2.domain.Board;
 import com.example.jademat.semiprojectv2.domain.BoardDTO;
 import com.example.jademat.semiprojectv2.domain.BoardListDTO;
+import com.example.jademat.semiprojectv2.domain.BoardReplyDTO;
 import com.example.jademat.semiprojectv2.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,6 +70,14 @@ public class BoardServiceImpl implements BoardService {
 
         Page<BoardDTO> pageboards = boardRepository.findBy(pageable);
         return pageboards;
+    }
+
+    @Override
+    public BoardReplyDTO readOneBoardReply(Long bno) {
+        Board board = boardRepository.findByBno(bno);
+
+        return new BoardReplyDTO(board,null);
+
     }
 
 }

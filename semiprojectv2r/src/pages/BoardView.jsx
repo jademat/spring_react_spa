@@ -1,7 +1,28 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 import "../styles/board.css";
 
 const BoardView = () => {
+
+    const [boardData, setBoardData] = useState({});
+
+    const params = useParams();
+    const bno = params.bno;
+    const fetchURL = `http://localhost:8080/api/board/view/${bno}`;
+
+    useEffect(() => {
+        fetch(fetchURL, {
+            headers: {'Accept': 'application/json'}
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data);
+                setBoardData(data);
+            })
+            .catch(err => console.log('오류발생', err));
+    }, []);
+
+
+
     return (
         <main id="content">
             <h2>게시판 본문글</h2>

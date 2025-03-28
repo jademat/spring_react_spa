@@ -3,6 +3,7 @@ package com.example.jademat.semiprojectv2.controller;
 import com.example.jademat.semiprojectv2.domain.Board;
 import com.example.jademat.semiprojectv2.domain.BoardDTO;
 import com.example.jademat.semiprojectv2.domain.BoardListDTO;
+import com.example.jademat.semiprojectv2.domain.BoardReplyDTO;
 import com.example.jademat.semiprojectv2.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,15 @@ public class BoardController {
         return new ResponseEntity<>(boardListDTO, HttpStatus.OK);
     }
 
+
+    @GetMapping("/view/{bno}")
+    public ResponseEntity<?> view(@PathVariable Long bno){
+
+       BoardReplyDTO boardreply = boardService.readOneBoardReply(bno);
+
+        return new ResponseEntity<>(boardreply, HttpStatus.OK);
+
+    }
 
     @GetMapping("/test/{cpg}")
     public ResponseEntity<?> test(@PathVariable int cpg){
