@@ -99,17 +99,20 @@ const BoardView = () => {
                                     <td className="text-left">{rp.userid}</td>
                                     <td>
                                         <div className="cmtbg"><span>{rp.regdate}</span>;
-                                        <span className="pushend"><a href="#" data-ref="${rp.rno}" data-bs-toggle="modal"data-bs-target="#cmtModal">[추가]</a> [수정] [삭제]</span></div>
+                                            <span className="pushend"><a href="#" data-ref="${rp.rno}"
+                                                                         data-bs-toggle="modal"
+                                                                         data-bs-target="#cmtModal">[추가]</a> [수정] [삭제]</span>
+                                        </div>
                                         <p className="py-1 pre">{rp.comments}</p>
                                     </td>
                                 </tr>)
                                 :
-                                (<tr key = {`reply-${rp.rno}`}>
+                                (<tr key={`reply-${rp.rno}`}>
                                     <td className="text-left">&nbsp;</td>
                                     <td>
-                                        <div className="rpybg"><span >{rp.userid}</span>
-                                            <span className="pushend" >{rp.regdate}</span></div>
-                                        <p className="py-1 pre" >{rp.comments}</p>
+                                        <div className="rpybg"><span>{rp.userid}</span>
+                                            <span className="pushend">{rp.regdate}</span></div>
+                                        <p className="py-1 pre">{rp.comments}</p>
                                     </td>
                                 </tr>)
                         ))
@@ -118,7 +121,51 @@ const BoardView = () => {
                     </tbody>
                 </table>
 
+                <div className="py-3">
+                    <form className="card card-body bg-light" id="replyfrm"
+                          method="post" name="replyfrm">
+                        <div className="row align-items-center">
+                            <div className="col text-center"><label> abc123</label></div>
+                            <div className="col-8"><textarea className="form-control col-7" id="comments"
+                                                             name="comments" rows="10"></textarea></div>
+                            <div className="col">
+                                <button className="btn btn-dark" id="replybtn"
+                                        type="button">
+                                    <i className="fa fa-commenting"></i> 댓글쓰기
+                                </button>
+                            </div>
+                        </div>
+                        <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+                        <input name="userid" type="hidden" value="abc123"/>
+                        <input name="pno" value="{bno}" type="hidden"/>
 
+                    </form>
+                </div>
+            </div>
+
+            <div className="modal hide" id="cmtModal" role="dialog">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3 className="modal-title">대댓글 쓰기</h3>
+                        </div>
+                        <div className="modal-body">
+                            <form id="cmmtfrm" method="post" name="cmmtfrm">
+                            <textarea className="span4" cols="60" id="cmmt" name="comments"
+                                      rows="8"></textarea>
+                                <input name="${_csrf.parameterName}" type="hidden" value="${_csrf.token}"/>
+                                <input name="userid" type="hidden" value="abc123"/>
+                                <input name="pno" value="{bno}" type="hidden"/>
+                                <input id="refno" name="ref" type="hidden"/>
+                            </form>
+                        </div>
+                        <div className="modal-footer justify-content-center">
+                            <button className="btn btn-danger" id="cmmtbtn"
+                                    type="button">대댓글 작성
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     )
