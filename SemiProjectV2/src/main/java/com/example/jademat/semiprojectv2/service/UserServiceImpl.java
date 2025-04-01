@@ -1,9 +1,9 @@
 package com.example.jademat.semiprojectv2.service;
 
-import com.example.jademat.semiprojectv2.domain.Member;
 import com.example.jademat.semiprojectv2.domain.User;
 import com.example.jademat.semiprojectv2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,7 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loginUser(User user) {
-        User findUser = userRepository.findByUserid(user.getUserid());
+        User findUser = userRepository.findByUserid(user.getUserid()).orElseThrow(
+                () -> new UsernameNotFoundException("사용자가 존재하지 않습니다.")
+        );
 
         if (findUser == null || !findUser.getPasswd().equals(user.getPasswd())) {
             throw new IllegalStateException("아이디나 비밀번호가 일치하지 않습니다!!");
@@ -40,4 +42,4 @@ public class UserServiceImpl implements UserService {
         return findUser;
     }
 
-    }
+}
