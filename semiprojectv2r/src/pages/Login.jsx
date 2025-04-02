@@ -14,9 +14,18 @@ const processLoginok = async(values) =>{
         body: JSON.stringify(values),
     }) .then(async response => {
         if (response.ok) {
-            alert('로그인 성공');
-            location.href="/member/myinfo";
-        } else if(response.status === 400) {
+            const data = await response.json();
+            console.log(data);
+
+            if(data.accessToken){   // Jwt 토큰이 존재하면
+                localStorage.setItem("accessToken", data.accessToken);
+                alert('로그인 성공');
+                location.href = "/member/myinfo";
+            }else{
+                alert('로그인 실패');
+                location.href = "/member/login";
+            }
+        } else if(response.status === 401) {
             alert(await response.text());
         }
     }).catch(error =>{
@@ -94,11 +103,6 @@ const Login = () => {
                     <label htmlFor="passwd" className="form-label">비밀번호</label>
                     {errors.passwd && <div className="invalid-feedback">{errors.passwd}</div>}
                 </div>
-
-                <div className="my-2 d-flex justify-content-center">
-                    <img src="/image/captcha.png"/>
-                </div>
-
 
                 <div className="d-flex justify-content-center py-2 gap-2">
                     <button type="submit" className="btn btn-primary">
