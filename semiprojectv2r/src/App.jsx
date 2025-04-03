@@ -7,6 +7,7 @@ import Main from "./pages/Main";
 import Join from "./pages/Join";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
+import Logout from "./pages/Logout";
 import Myinfo from "./pages/Myinfo";
 import BoardList from "./pages/BoardList";
 import GalleryList from "./pages/GalleryList";
@@ -14,6 +15,7 @@ import BoardWrite from "./pages/BoardWrite.jsx";
 import BoardView from "./pages/BoardView.jsx";
 
 import './styles/App.css'
+
 
 
 function App() {
@@ -26,6 +28,7 @@ function App() {
                 <Route path = "/" element={ <Main/> } />
                 <Route path = "/member/join" element={ <Join/> } />
                 <Route path = "/member/login" element={ <Login/> } />
+                <Route path = "/member/logout" element={ <Logout/> } />
                 <Route path = "/board/list/:cpg" element={ <BoardList/>} />
                 <Route path = "/board/find/:ftype/:fkey/:cpg" element={ <BoardList/>} />
                 <Route path = "/board/write" element={ <BoardWrite/>} />
