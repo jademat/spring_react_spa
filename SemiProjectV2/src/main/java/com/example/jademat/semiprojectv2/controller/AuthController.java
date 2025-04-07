@@ -2,6 +2,7 @@ package com.example.jademat.semiprojectv2.controller;
 
 import com.example.jademat.semiprojectv2.domain.User;
 import com.example.jademat.semiprojectv2.jwt.JwtTokenProvider;
+import com.example.jademat.semiprojectv2.utils.GoogleRecaptchaService;
 import com.example.jademat.semiprojectv2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final GoogleRecaptchaService googleRecaptchaService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> joinok(@RequestBody User user) {
@@ -33,6 +35,9 @@ public class AuthController {
 
         log.info("submit된 회원정보 : {}",user);
         try {
+            if (!googleRecaptchaService.verifyRecaptcha(user.getGRecaptchaResponse())) {
+                throw new IllegalStateException("자동가입방지 코드 오류!!");
+            }
 
             userService.newUser(user);
             response = ResponseEntity.ok().build();
