@@ -40,6 +40,9 @@ const BoardList = () => {
     const goBoardWrite = () => {
         location.href = '/board/write';
     };
+    const goPdsWrite = () => {
+        location.href = '/pds/write';
+    };
 
     const goBoardFind = () => {
         const findtype = ftypeRef.current.value;
