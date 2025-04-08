@@ -126,6 +126,7 @@ const Join = () => {
         document.body.appendChild(script);
 
         const site_key = import.meta.env.VITE_APP_RECAPTCHA_SITEKEY;
+        console.log("stie_key >> ",site_key);
         setSitekey(site_key);
     }, []);
 

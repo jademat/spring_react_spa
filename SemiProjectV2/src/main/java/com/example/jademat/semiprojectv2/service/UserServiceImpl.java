@@ -29,13 +29,16 @@ public class UserServiceImpl implements UserService {
         // 이메일 중복 체크
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalStateException("이미 존재하는 이메일입니다!!");
-            try {
-                user.setVerifycode(makeVerifyCode());   // 계정에 인증코드 생성
-                sendVerifyCode(user);                   // 메일로 확인용 인증코드 발송
-            } catch (Exception e){
-                e.printStackTrace();
-                throw new IllegalStateException("인증코드 발송중 문제 발생");
-            }
+
+
+        }
+
+        try {
+            user.setVerifycode(makeVerifyCode());   // 계정에 인증코드 생성
+            sendVerifyCode(user);                   // 메일로 확인용 인증코드 발송
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new IllegalStateException("인증코드 발송중 문제 발생");
         }
         user.setPasswd(passwordEncoder.encode(user.getPasswd()));       // 비밀번호를 암호화시켜 저장
         return userRepository.save(user);
