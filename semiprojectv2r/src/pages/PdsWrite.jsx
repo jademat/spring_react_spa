@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
-import "../styles/gallery.css"
+import "../styles/pds.css"
 
-const validateGalleryForm = (values) => {
+const validatePdsForm = (values) => {
     let formErrors = {};
 
     if (!values.userid) {
@@ -19,9 +19,9 @@ const validateGalleryForm = (values) => {
     }
 
     // 파일요소(첨부파일크기) 검사
-    console.log(">> gallery write ", values.ginames.size);
-    if (values.ginames.size === 0) {
-        formErrors.ginames = '이미지 파일을 첨부하세요';
+    console.log(">> pds write ", values.panames.size);
+    if (values.panames.size === 0) {
+        formErrors.panames = '첨부파일을 추가하세요';
     }
 
     // 리캡챠 확인 검사
@@ -32,18 +32,18 @@ const validateGalleryForm = (values) => {
     return formErrors;
 };
 
-const processGalleryok = async (formValues) => {
+const processPdsok = async (formValues) => {
     fetch('http://localhost:8080/api/pds/write', {
         method: 'POST',
         body: formValues
     }).then(async response => {
         if (response.ok) {
             alert('글쓰기가 완료되었습니다!!');
-            location.href = '/Gallery/list';
+            location.href = '/pds/list';
         } else if (response.status === 400) {
             alert(await response.text());
         } else {
-            alert('게시판 글쓰기에 실패했습니다!! 다시 시도해 주세요!');
+            alert('자료실 글쓰기에 실패했습니다!! 다시 시도해 주세요!');
         }
     }).catch(error => {
         console.error('error:', error);
@@ -51,34 +51,26 @@ const processGalleryok = async (formValues) => {
     });
 };
 
-// GalleryWrite 함수 컴포넌트 정의
-const GalleryWrite = () => {
-    const formGalleryRef = useRef(null);
+// PdsWrite 함수 컴포넌트 정의
+const PdsWrite = () => {
+    const formPdsRef = useRef(null);
     const [errors, setErrors] = useState({});
     const [sitekey, setSitekey] = useState(null);
 
-    const handleGallerySubmit = (e) => {
+    const handlePdsSubmit = (e) => {
         e.preventDefault();
 
-        const formData = new FormData(formGalleryRef.current);
+        const formData = new FormData(formPdsRef.current);
         const formValues = Object.fromEntries(formData.entries());
 
-        const formErrors = validateGalleryForm(formValues);
+        const formErrors = validatePdsForm(formValues);
 
         if (Object.keys(formErrors).length === 0) {
-            // cowmeat01.jpg => cowmeat01_small.jpg
-            const fname = formData.getAll("ginames")[0].name.split('.');
-            const tfname = `${fname[0]}_small.${fname[1]}`;
-            //console.log(">> tfname ", fname, tfname);
-            formData.set("simgname", tfname);  // 요소명, 값
 
-            //console.log(">> formData ", formData);
-            //console.log(">> formValues ", formValues);
-
-            processGalleryok(formData);
+            processPdsok(formData);
         } else {
             setErrors(formErrors);
-            console.log('갤러리 글쓰기 실패!!');
+            console.log('자료실 글쓰기 실패!!');
         }
     }
 
@@ -96,9 +88,9 @@ const GalleryWrite = () => {
 
     return (
         <main id="content">
-            <h2>갤러리 글쓰기</h2>
-            <form name="galleryfrm" id="galleryfrm" method="post"
-                  ref={formGalleryRef} onSubmit={handleGallerySubmit} noValidate>
+            <h2>자료실 글쓰기</h2>
+            <form name="pdsfrm" id="pdsfrm" method="post"
+                  ref={formPdsRef} onSubmit={handlePdsSubmit} noValidate>
                 <div className="form-floating my-2">
                     <input type="text" name="userid" id="userid"
                            className={`form-control ${errors.userid ? 'is-invalid' : ''}`}
@@ -124,11 +116,10 @@ const GalleryWrite = () => {
                 </div>
 
                 <div className="my-2">
-                    <input type="file" name="ginames" id="ginames"
-                           className={`form-control h-100 ${errors.ginames ? 'is-invalid' : ''}`}
+                    <input type="file" name="panames" id="panames"
+                           className={`form-control h-100 ${errors.panames ? 'is-invalid' : ''}`}
                            multiple required />
-                    <input type="hidden" name="simgname" id="simgname"/>
-                    {errors.ginames && <div className="invalid-feedback">{errors.ginames}</div>}
+                    {errors.panames && <div className="invalid-feedback">{errors.panames}</div>}
                 </div>
 
                 <div className="my-2 d-flex justify-content-center">
@@ -150,4 +141,4 @@ const GalleryWrite = () => {
     )
 }
 
-export default GalleryWrite;
+export default PdsWrite;
