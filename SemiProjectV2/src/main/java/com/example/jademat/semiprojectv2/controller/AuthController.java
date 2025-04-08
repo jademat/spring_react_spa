@@ -81,5 +81,17 @@ public class AuthController {
         return response;
     }
 
+    @GetMapping("/verifyCode/{userid}/{email}/{code}")
+    public ResponseEntity<?> verifyCode(@PathVariable String userid,@PathVariable String email,@PathVariable String code) {
+        ResponseEntity<?> response = ResponseEntity.internalServerError().build();
+
+        if(userService.verifyEmail(userid,email,code)) {
+            response = ResponseEntity.ok().body("이메일 인증이 완료 되었습니다");
+        } else{
+            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일 인증 실패 - 코드를 다시 확인 요망");
+        }
+
+        return response;
+    }
 
 }
