@@ -1,6 +1,7 @@
 package com.example.jademat.semiprojectv2.service;
 import com.example.jademat.semiprojectv2.domain.Pds;
 import com.example.jademat.semiprojectv2.domain.PdsAttach;
+import com.example.jademat.semiprojectv2.domain.PdsReply;
 import com.example.jademat.semiprojectv2.domain.PdsReplyDTO;
 import com.example.jademat.semiprojectv2.repository.PdsAttachRepository;
 import com.example.jademat.semiprojectv2.repository.PdsReplyRepository;
@@ -82,9 +83,14 @@ public class PdsServiceImpl implements PdsService {
         return result;
     }
 
+    @Transactional
     @Override
     public PdsReplyDTO readOnePdsReply(int pno) {
-        return null;
+        Pds pds = pdsMapper.findByPno(pno);
+        List<PdsAttach> pas = pdsAttachMapper.findByPno(pno);
+        List<PdsReply> prs = pdsReplyMapper.findByPno(pno);
+
+        return new PdsReplyDTO(pds, pas, prs);
     }
 
 }
