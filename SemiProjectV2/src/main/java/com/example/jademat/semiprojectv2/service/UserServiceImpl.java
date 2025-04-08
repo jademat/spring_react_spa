@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
                 throw new IllegalStateException("인증코드 발송중 문제 발생");
             }
         }
-        user.serPasswd(passwordEncoder.encode(user.getPasswd()));       // 비밀번호를 암호화시켜 저장
+        user.setPasswd(passwordEncoder.encode(user.getPasswd()));       // 비밀번호를 암호화시켜 저장
         return userRepository.save(user);
 
     }
