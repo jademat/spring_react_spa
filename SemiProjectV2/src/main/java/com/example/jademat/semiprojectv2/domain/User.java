@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users3")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,6 +30,14 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @Column
+    private String enabled = "false";
+
+    @Column
+    private String verifycode;
+
+    @Column
+    private String role = "USER";
     // insert, update 시 해당컬럼 제외
     @CreationTimestamp
     // @Column(insertable = false, updatable = false)
