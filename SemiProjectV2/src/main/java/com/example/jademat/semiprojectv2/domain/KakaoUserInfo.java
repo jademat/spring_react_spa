@@ -16,7 +16,6 @@ public class KakaoUserInfo {
         private String profile_image;
         private String thumbnail_image;
     }
-
     @Data
     public static class KakaoAccount {
         private Boolean profile_nickname_needs_agreement;
