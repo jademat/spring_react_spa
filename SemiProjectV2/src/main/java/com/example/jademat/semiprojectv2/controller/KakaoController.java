@@ -1,6 +1,7 @@
 package com.example.jademat.semiprojectv2.controller;
 
 import com.example.jademat.semiprojectv2.domain.KakaoTokenResponse;
+import com.example.jademat.semiprojectv2.domain.KakaoUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,14 +67,39 @@ public class KakaoController {
             // 응답에서 AccessToken 추출
             KakaoTokenResponse tokenResponse = response.getBody();
             if (tokenResponse != null) {
-                String accessToken = tokenResponse.getAccess_token();
-                log.info("Access token: " + accessToken);
+                AccessToken = tokenResponse.getAccess_token();
+                log.info("Access token: " + AccessToken);
             }
-            return ResponseEntity.ok().body(tokenResponse);
+
+            KakaoUserInfo kakaoUserInfo = getUserInfo(AccessToken);
+            log.info("KakaoUserInfo: " + kakaoUserInfo);
+            return ResponseEntity.ok().body(kakaoUserInfo.getProperties().getNickname());
         } catch (Exception e) {
             log.error("Error getting token: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error getting token: " + e.getMessage());
         }
     }
+
+    // 액세스 토큰으로 사용자 정보 알아내기
+    private KakaoUserInfo getUserInfo(String accessToken) {
+        // 사용자 정보 요청을 위한 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.set("Authorization", "Bearer " + accessToken);
+
+        // HTTP 요청 엔티티 생성
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        // GET 요청으로 사용자 정보 받기
+        ResponseEntity<KakaoUserInfo> response = restTemplate.exchange(
+                "https://kapi.kakao.com/v2/user/me",
+                HttpMethod.GET,
+                request,
+                KakaoUserInfo.class
+        );
+
+        return response.getBody();
+    }
+
 }
